@@ -28,13 +28,13 @@ jobs:
 
       - name: Compile Arduino code
         run: |
-          arduino-cli compile --fqbn arduino:avr:uno ./server/arduino.ino
+          arduino-cli compile --fqbn arduino:avr:uno ./server/arduino/arduino.ino
 
       - name: Upload code (Optional)
         run: |
           echo "Skipping upload step in CI environment"
           # Uncomment the following line if you want to attempt upload in CI (not recommended)
-          # arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:avr:uno ./arduino.ino
+          # arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:avr:uno ./arduino/arduino.ino
 
       - name: Run tests (Optional)
         run: echo "No tests specified"
