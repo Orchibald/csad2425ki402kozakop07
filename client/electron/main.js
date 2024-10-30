@@ -46,19 +46,23 @@ function createWindow() {
 function checkArduinoStatus() {
   setInterval(async () => {
     const ports = await SerialPort.list();
-    const arduinoPort = ports.find((p) => p.path === 'COM3'); 
+
+    const arduinoPort = ports.find((p) =>
+      p.vendorId === '2341' &&  
+      p.productId === '0043'    
+    );
 
     if (arduinoPort && !arduinoConnected) {
-      connectToArduino();
+      connectToArduino(arduinoPort.path); 
     } else if (!arduinoPort && arduinoConnected) {
       disconnectArduino();
     }
-  }, 5000); 
+  }, 5000);
 }
 
-function connectToArduino() {
+function connectToArduino(portPath) {
   port = new SerialPort({
-    path: 'COM3', 
+    path: portPath,  
     baudRate: 9600,
   });
 
@@ -66,9 +70,8 @@ function connectToArduino() {
 
   port.on('open', () => {
     arduinoConnected = true;
-    console.log('Arduino підключена');
+    console.log('Arduino підключена на порту:', portPath);
     
-    // Відправити повідомлення у фронтенд про підключення
     BrowserWindow.getAllWindows().forEach((win) => {
       win.webContents.send('arduino-connected', true);
     });
@@ -78,7 +81,6 @@ function connectToArduino() {
     arduinoConnected = false;
     console.log('Arduino відключена');
 
-    // Відправити повідомлення у фронтенд про відключення
     BrowserWindow.getAllWindows().forEach((win) => {
       win.webContents.send('arduino-connected', false);
     });
@@ -109,7 +111,6 @@ function disconnectArduino() {
     arduinoConnected = false;
     console.log('Arduino відключена вручну');
     
-    // Відправити повідомлення у фронтенд про відключення
     BrowserWindow.getAllWindows().forEach((win) => {
       win.webContents.send('arduino-connected', false);
     });
