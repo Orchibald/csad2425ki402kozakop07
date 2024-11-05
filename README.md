@@ -40,3 +40,12 @@ For the upcoming tasks, the following technologies, languages, and hardware will
 Programming Language: **JS**
 Framework: **ElectronJS**
 Hardware: **Arduino Uno**
+
+### Developer guide
+Build: **npm run build**
+
+### User guide
+Run: **npm run dev**
+
+### Repository details
+Version: **1.0.0.1**
