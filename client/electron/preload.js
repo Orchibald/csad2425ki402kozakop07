@@ -1,10 +1,19 @@
+/* eslint-disable no-undef */
+/* eslint-env node */
 const { contextBridge, ipcRenderer } = require('electron');
 
-contextBridge.exposeInMainWorld('electron', {
-  ipcRenderer: {
-    send: (channel, data) => ipcRenderer.send(channel, data),
-    on: (channel, func) => ipcRenderer.on(channel, (event, ...args) => func(event, ...args)),
-    removeListener: (channel, func) => ipcRenderer.removeListener(channel, func),
-    invoke: (channel, data) => ipcRenderer.invoke(channel, data),
+contextBridge.exposeInMainWorld('api', {
+  sendToArduino: (message) => ipcRenderer.send('send-to-arduino', message),
+  onArduinoData: (callback) => {
+    ipcRenderer.on('arduino-data', (event, data) => callback(data));
   },
+  checkArduinoConnection: () => ipcRenderer.send('check-arduino-connection'),
+  onArduinoConnectionStatus: (callback) => {
+    ipcRenderer.on('arduino-connection-status', (event, status) => callback(status));
+  },
+  getVersions: () => ({
+    node: process.versions.node,
+    chrome: process.versions.chrome,
+    electron: process.versions.electron
+  })
 });

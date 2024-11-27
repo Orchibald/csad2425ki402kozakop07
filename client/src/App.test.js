@@ -1,34 +1,39 @@
-/* eslint-disable */
+/* eslint-disable no-undef */
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from './App';
 
-test('renders Arduino Control Panel UI elements', () => {
-  render(<App />);
-
-  expect(screen.getByText('Arduino Control Panel')).toBeInTheDocument();
-  expect(screen.getByPlaceholderText('Введіть команду')).toBeInTheDocument();
-  expect(screen.getByText('Надіслати')).toBeInTheDocument();
+beforeEach(() => {
+  window.api = {
+    sendToArduino: jest.fn(),
+    checkArduinoConnection: jest.fn(),
+    onArduinoData: jest.fn(),
+    onArduinoConnectionStatus: jest.fn(),
+  };
 });
 
-test('updates command input field when text is entered', () => {
+test('скидає гру при натисканні на кнопку "New Game"', () => {
   render(<App />);
 
-  const input = screen.getByPlaceholderText('Введіть команду');
-  fireEvent.change(input, { target: { value: 'Test Command' } });
+  // Натискаємо на кнопку "New Game"
+  fireEvent.click(screen.getByText('New Game'));
 
-  expect(input).toHaveValue('Test Command');
+  // Перевіряємо, що sendToArduino був викликаний з командою RESET
+  expect(window.api.sendToArduino).toHaveBeenCalledWith(
+    JSON.stringify({ command: 'RESET' })
+  );
 });
 
-test('clears command input field when send button is clicked', () => {
+test('змінює режим гри при виборі нового режиму', () => {
   render(<App />);
 
-  const input = screen.getByPlaceholderText('Введіть команду');
-  const button = screen.getByText('Надіслати');
+  // Змінюємо режим гри
+  fireEvent.change(screen.getByLabelText('Game Mode:'), { target: { value: '2' } });
 
-  fireEvent.change(input, { target: { value: 'Test Command' } });
-  fireEvent.click(button);
-
-  expect(input).toHaveValue('');
+  // Перевіряємо, що sendToArduino був викликаний з командою MODE
+  expect(window.api.sendToArduino).toHaveBeenCalledWith(
+    JSON.stringify({ command: 'MODE', mode: 2 })
+  );
 });

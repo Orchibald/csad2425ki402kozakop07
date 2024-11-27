@@ -1,0 +1,36 @@
+{
+    "game": {
+      "board": {
+        "size": 3,
+        "cells": [
+          ["", "", ""],
+          ["", "", ""],
+          ["", "", ""]
+        ]
+      },
+      "status": "ongoing", 
+      "currentTurn": "player1" 
+    },
+    "settings": {
+      "mode": "Man vs AI", 
+      "players": {
+        "player1": {
+          "type": "Man", 
+          "symbol": "X",  
+          "name": "Player 1" 
+        },
+        "player2": {
+          "type": "AI", 
+          "symbol": "O", 
+          "name": "AI Bot", 
+          "aiStrategy": "win" 
+        }
+      }
+    },
+    "actions": {
+      "newGame": true, 
+      "saveGame": false,  
+      "loadGame": false
+    }
+  }
+  
