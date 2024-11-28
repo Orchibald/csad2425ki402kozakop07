@@ -1,0 +1,78 @@
+name: CI Client Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Set up Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Set your desired Node.js version
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          cd client
+          npm install
+
+      # Run the build for Vite and Electron
+      - name: Build project
+        run: |
+          cd client
+          npm run build
+
+      # Run tests with coverage
+      - name: Run Tests with Coverage
+        run: |
+          cd client
+          npm test -- --coverage
+
+      # Upload test coverage report
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/
+
+      # Upload Electron build artifacts (if applicable)
+      - name: Upload Electron Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: electron-build
+          path: dist-electron/
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: |
+        cd client
+        npm install
+
+    - name: Run ESLint
+      run: |
+        cd client
+        npm run lint
