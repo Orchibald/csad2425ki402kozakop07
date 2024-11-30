@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Home - Documentation</title>
+    <title>electron/preload.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,78 +29,78 @@
 
 <div id="main">
     
+    <h1 class="page-title">electron/preload.js</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-undef */
+/* eslint-env node */
+const { contextBridge, ipcRenderer } = require('electron');
 
+/**
+ * Exposes an API to the renderer process, allowing communication with the main process.
+ * This is done using `contextBridge` for safe and controlled access to Electron's IPC.
+ */
+contextBridge.exposeInMainWorld('api', {
+  /**
+   * Sends a message to the Arduino via the main process.
+   * @param {string} message - The message to be sent to Arduino.
+   */
+  sendToArduino: (message) => ipcRenderer.send('send-to-arduino', message),
 
+  /**
+   * Listens for data from Arduino and calls the provided callback when data is received.
+   * @param {function} callback - A function that will be called with the data received from Arduino.
+   * @example
+   * api.onArduinoData((data) => {
+   *   console.log(data);
+   * });
+   */
+  onArduinoData: (callback) => {
+    ipcRenderer.on('arduino-data', (event, data) => callback(data));
+  },
 
+  /**
+   * Sends a request to check the current status of the Arduino connection.
+   */
+  checkArduinoConnection: () => ipcRenderer.send('check-arduino-connection'),
 
+  /**
+   * Listens for Arduino connection status changes and calls the provided callback.
+   * @param {function} callback - A function that will be called with the status of the Arduino connection (true/false).
+   * @example
+   * api.onArduinoConnectionStatus((status) => {
+   *   console.log('Connection status:', status);
+   * });
+   */
+  onArduinoConnectionStatus: (callback) => {
+    ipcRenderer.on('arduino-connection-status', (event, status) => callback(status));
+  },
 
-
-
-
-
-    
-
-
-    <section class="readme">
-        <article><h3>Repository Details</h3>
-<p>This repository was created to fulfill the learning objectives of the CSAD course. Taking into account the requirements, the repository name is <strong>csad2425ki402kozakop07</strong>.</p>
-<h3>Task Details</h3>
-<ol>
-<li>
-<p>Create a GitHub repository with the name csad2425ki402kozakop07, where:
-YY1: <strong>24</strong>
-YY2: <strong>25</strong>
-Group: <strong>ki402</strong>
-Student's full name: <strong>Kozak O.P.</strong>
-Student's number: <strong>7</strong></p>
-</li>
-<li>
-<p>Grant repository access to the author/lecturer.</p>
-</li>
-<li>
-<p>Create a branch in the following format: feature/develop/<task number>.</p>
-</li>
-<li>
-<p>This README file will contain:</p>
-</li>
-</ol>
-<p>Details about the repository and task.
-Information about the student's task as per Table 1.
-Technology, programming language, and hardware details for the next tasks.
-5. Create a Git tag in the format: &lt;PROJECT_NAME&gt;_<VERSION>_WW<YYWWD>, where:</p>
-<p>YY: Current year
-WW: Work week number
-D: Current day number of the week
-6. Create a pull request titled task1 and assign the lecturer as a reviewer.</p>
-<ol start="7">
-<li>After the reviewer approves, merge the pull request into the <strong>develop</strong> branch.</li>
-</ol>
-<h3>Student Details and details from Table 1</h3>
-<p>Student Number: <strong>7</strong>
-Student Name: <strong>Kozak Orest</strong>
-Group: <strong>KI-402</strong></p>
-<p>Game : <strong>tik-tac-toe 3x3</strong>
-Config format : <strong>XML</strong></p>
-<h3>Technologies, Programming Language, and Hardware</h3>
-<p>For the upcoming tasks, the following technologies, languages, and hardware will be used:</p>
-<p>Programming Language: <strong>JS</strong>
-Framework: <strong>ElectronJS</strong>
-Hardware: <strong>Arduino Uno</strong></p>
-<h3>Developer guide</h3>
-<p>Build: <strong>npm run build</strong></p>
-<h3>User guide</h3>
-<p>Run: <strong>npm run dev</strong></p>
-<h3>Repository details</h3>
-<p>Version: <strong>1.0.0.1</strong></p></article>
+  /**
+   * Retrieves the versions of Node.js, Chrome, and Electron.
+   * @returns {Object} An object containing the versions of Node.js, Chrome, and Electron.
+   * @example
+   * const versions = api.getVersions();
+   * console.log(versions.node); // Node.js version
+   * console.log(versions.chrome); // Chrome version
+   * console.log(versions.electron); // Electron version
+   */
+  getVersions: () => ({
+    node: process.versions.node,
+    chrome: process.versions.chrome,
+    electron: process.versions.electron
+  })
+});
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

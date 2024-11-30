@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": ["src"],
+    "include": ["src", "electron"],
     "includePattern": ".+\\.(js|jsx)$",
     "excludePattern": "(node_modules|dist|deploy)"
   },

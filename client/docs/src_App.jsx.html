@@ -1,4 +1,45 @@
-/* eslint-disable no-unused-vars */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>src/App.jsx - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#App">App</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Board">Board</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Menu">Menu</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#checkArduinoConnection">checkArduinoConnection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createWindow">createWindow</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#findArduinoPort">findArduinoPort</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getVersions">getVersions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#monitorArduinoConnection">monitorArduinoConnection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onArduinoConnectionStatus">onArduinoConnectionStatus</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onArduinoData">onArduinoData</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#sendToArduino">sendToArduino</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#setupSerialCommunication">setupSerialCommunication</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/App.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
@@ -63,7 +104,7 @@ function App() {
         setGameStatus(message);
         // Update the current player based on the status message
         const playerMatch = message.match(/Player (\w)'s turn/);
-        if (playerMatch && playerMatch[1]) {
+        if (playerMatch &amp;&amp; playerMatch[1]) {
           /* istanbul ignore next */
           setCurrentPlayer(playerMatch[1]);
         }
@@ -96,7 +137,7 @@ function App() {
 
     // Check if it's the player's turn
     if (
-      (gameMode === 0 && currentPlayer === "X") || // Player vs AI, player's turn
+      (gameMode === 0 &amp;&amp; currentPlayer === "X") || // Player vs AI, player's turn
       gameMode === 2 // Player vs Player
     ) {
       const command = {
@@ -170,42 +211,61 @@ function App() {
 
   // Render the game UI
   return (
-    <div className="game">
-      <div className="status">
-        <p className="title">
+    &lt;div className="game">
+      &lt;div className="status">
+        &lt;p className="title">
           Arduino Connection: {connectionStatus ? "Connected" : "Disconnected"}
-        </p>
-        <p>{gameStatus}</p>
-      </div>
-      <div className="board">
+        &lt;/p>
+        &lt;p>{gameStatus}&lt;/p>
+      &lt;/div>
+      &lt;div className="board">
         {board.map((value, index) => (
-          <div
+          &lt;div
             key={index}
             className={`cell ${value === "X" ? "x" : value === "O" ? "o" : ""}`}
             onClick={() => handleCellClick(index)}
           >
             {value !== " " ? value : ""}
-          </div>
+          &lt;/div>
         ))}
-      </div>
-      <div className="controls">
-        <button onClick={resetGame} className="btn">New Game</button>
-        <button onClick={saveGame} className="btn">Save Game</button>
-        <button onClick={loadGame} className="btn">Load Game</button>
-        <label>
+      &lt;/div>
+      &lt;div className="controls">
+        &lt;button onClick={resetGame} className="btn">New Game&lt;/button>
+        &lt;button onClick={saveGame} className="btn">Save Game&lt;/button>
+        &lt;button onClick={loadGame} className="btn">Load Game&lt;/button>
+        &lt;label>
           Game Mode:
-          <select
+          &lt;select
             value={gameMode}
             onChange={(e) => changeGameMode(parseInt(e.target.value))}
           >
-            <option value={0}>Player vs AI</option>
-            <option value={1}>AI vs AI</option>
-            <option value={2}>Player vs Player</option>
-          </select>
-        </label>
-      </div>
-    </div>
+            &lt;option value={0}>Player vs AI&lt;/option>
+            &lt;option value={1}>AI vs AI&lt;/option>
+            &lt;option value={2}>Player vs Player&lt;/option>
+          &lt;/select>
+        &lt;/label>
+      &lt;/div>
+    &lt;/div>
   );
 }
 
 export default App;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sat Nov 30 2024 16:30:01 GMT+0200 (за східноєвропейським стандартним часом) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

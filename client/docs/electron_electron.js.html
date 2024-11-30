@@ -1,4 +1,45 @@
-/* eslint-disable no-undef */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>electron/electron.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#App">App</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Board">Board</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#Menu">Menu</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#checkArduinoConnection">checkArduinoConnection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createWindow">createWindow</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#findArduinoPort">findArduinoPort</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getVersions">getVersions</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#monitorArduinoConnection">monitorArduinoConnection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onArduinoConnectionStatus">onArduinoConnectionStatus</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onArduinoData">onArduinoData</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#sendToArduino">sendToArduino</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#setupSerialCommunication">setupSerialCommunication</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">electron/electron.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-undef */
 const path = require('path');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { SerialPort } = require('serialport');
@@ -24,7 +65,7 @@ args.forEach((arg) => {
   }
 });
 
-if (!specifiedPort && process.env.ARDUINO_PORT) {
+if (!specifiedPort &amp;&amp; process.env.ARDUINO_PORT) {
   specifiedPort = process.env.ARDUINO_PORT;
 }
 
@@ -55,7 +96,7 @@ function createWindow() {
 
 /**
  * Find the Arduino port by checking the connected serial devices.
- * @returns {Promise<string|null>} The path to the Arduino serial port or null if not found.
+ * @returns {Promise&lt;string|null>} The path to the Arduino serial port or null if not found.
  */
 async function findArduinoPort() {
   if (specifiedPort) {
@@ -64,7 +105,7 @@ async function findArduinoPort() {
 
   const ports = await SerialPort.list();
   for (let port of ports) {
-    if (port.manufacturer && port.manufacturer.includes('Arduino')) {
+    if (port.manufacturer &amp;&amp; port.manufacturer.includes('Arduino')) {
       return port.path;
     }
   }
@@ -125,7 +166,7 @@ async function setupSerialCommunication() {
      * Sends a message to the main window indicating whether the connection is open.
      */
     ipcMain.on('check-arduino-connection', () => {
-      const isOpen = arduinoPort && arduinoPort.isOpen;
+      const isOpen = arduinoPort &amp;&amp; arduinoPort.isOpen;
       mainWindow.webContents.send('arduino-connection-status', isOpen);
     });
 
@@ -165,3 +206,22 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sat Nov 30 2024 16:30:01 GMT+0200 (за східноєвропейським стандартним часом) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
