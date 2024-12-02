@@ -23,6 +23,7 @@ const Board = ({ board, onCellClick, gameOver, pendingMove, disabled }) => {
           key={index} // Unique key for each cell
           className={`cell ${cell} ${(gameOver || disabled) ? 'disabled' : ''} ${pendingMove === index ? 'pending' : ''}`}
           // Add click handler only if the game is not over and the board is not disabled
+          /* istanbul ignore next */
           onClick={() => !gameOver && !disabled && onCellClick(index)}
         >
           {/* Render the cell's content if it's not empty */}

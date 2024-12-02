@@ -12,7 +12,7 @@
     "serve": "vite preview",
     "electron:pack": "electron-builder --dir",
     "electron:builder": "electron-builder",
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "eslint src/App.jsx",
     "build:for:electron": "tsc --noEmit && cross-env ELECTRON=true vite build",
     "app:build": "npm run build:for:electron && npm run electron:builder"
@@ -37,6 +37,7 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.2",
     "babel-jest": "^29.7.0",
+    "babel-plugin-istanbul": "^7.0.0",
     "concurrently": "^9.1.0",
     "electron": "^32.2.0",
     "electron-builder": "^25.1.8",
@@ -46,6 +47,7 @@
     "eslint-plugin-react-refresh": "^0.4.12",
     "globals": "^15.9.0",
     "jest": "^29.7.0",
+    "jest-cli": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jsdoc": "^4.0.4",
     "vite": "^5.4.8",
@@ -56,9 +58,15 @@
       "^.+\\.(js|jsx)$": "babel-jest"
     },
     "moduleNameMapper": {
-      "\\.(css|less|scss|sass)$": "<rootDir>/jest.mock.js"
+      "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/jest.mock.js"
     },
-    "testEnvironment": "jest-environment-jsdom"
+    "testEnvironment": "jest-environment-jsdom",
+    "coverageReporters": [
+      "html"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/__mocks__/"
+    ]
   },
   "build": {
     "appId": "com.devname.package",

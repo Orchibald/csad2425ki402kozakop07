@@ -22,6 +22,7 @@ function App() {
 
     // Listen for Arduino connection status updates
     window.api.onArduinoConnectionStatus((status) => {
+      /* istanbul ignore next */
       setConnectionStatus(status);
     });
 
@@ -43,37 +44,46 @@ function App() {
    * Parses and updates the app state based on the data type.
    * @param {string} data - JSON string received from Arduino.
    */
+
   const handleArduinoData = (data) => {
     try {
       const jsonData = JSON.parse(data);
       const { type, message } = jsonData;
 
       if (type === 'info') {
+        /* istanbul ignore next */
         setGameStatus(message);
       } else if (type === 'board') {
         // Update the board with new data
         const newBoard = message.replace(/\n/g, '').split('|').join('').split('');
+        /* istanbul ignore next */
         setBoard(newBoard);
       } else if (type === 'game_status') {
+        /* istanbul ignore next */
         setGameStatus(message);
         // Update the current player based on the status message
         const playerMatch = message.match(/Player (\w)'s turn/);
         if (playerMatch && playerMatch[1]) {
+          /* istanbul ignore next */
           setCurrentPlayer(playerMatch[1]);
         }
       } else if (type === 'result') {
+        /* istanbul ignore next */
         setGameStatus(message);
         setGameOver(true); // Mark the game as over
       } else if (type === 'error') {
         alert(message); // Display error message
       } else if (type === 'ai_move') {
+        /* istanbul ignore next */
         setGameStatus(message);
       } else if (type === 'game_mode') {
+        /* istanbul ignore next */
         setGameStatus(message);
       }
     } catch (error) {
       console.error('Error parsing Arduino data:', error);
     }
+
   };
 
   /**

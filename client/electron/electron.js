@@ -15,6 +15,9 @@ let checkInterval;
 const args = process.argv.slice(1);
 let specifiedPort = null;
 
+/**
+ * Parse command line arguments to extract the specified port.
+ */
 args.forEach((arg) => {
   if (arg.startsWith('--port=')) {
     specifiedPort = arg.split('=')[1];
@@ -25,6 +28,10 @@ if (!specifiedPort && process.env.ARDUINO_PORT) {
   specifiedPort = process.env.ARDUINO_PORT;
 }
 
+/**
+ * Create the main Electron window.
+ * This function initializes the BrowserWindow and loads the appropriate URL.
+ */
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1324,
@@ -46,6 +53,10 @@ function createWindow() {
   );
 }
 
+/**
+ * Find the Arduino port by checking the connected serial devices.
+ * @returns {Promise<string|null>} The path to the Arduino serial port or null if not found.
+ */
 async function findArduinoPort() {
   if (specifiedPort) {
     return specifiedPort;
@@ -60,6 +71,10 @@ async function findArduinoPort() {
   return null;
 }
 
+/**
+ * Set up serial communication with the Arduino.
+ * This function initializes the SerialPort and the parser, then listens for incoming data.
+ */
 async function setupSerialCommunication() {
   try {
     const portPath = await findArduinoPort();
@@ -87,16 +102,28 @@ async function setupSerialCommunication() {
       mainWindow.webContents.send('arduino-connection-status', false);
     });
 
+    /**
+     * Listen for incoming data from Arduino and send it to the main window.
+     * @param {string} data - Data received from the Arduino.
+     */
     parser.on('data', (data) => {
       console.log('Received from Arduino:', data.trim());
       mainWindow.webContents.send('arduino-data', data.trim());
     });
 
+    /**
+     * Send a message to the Arduino via the serial port.
+     * @param {string} message - The message to send to the Arduino.
+     */
     ipcMain.on('send-to-arduino', (event, message) => {
       console.log('Sending to Arduino:', message);
       arduinoPort.write(message + '\n');
     });
 
+    /**
+     * Check the Arduino connection status.
+     * Sends a message to the main window indicating whether the connection is open.
+     */
     ipcMain.on('check-arduino-connection', () => {
       const isOpen = arduinoPort && arduinoPort.isOpen;
       mainWindow.webContents.send('arduino-connection-status', isOpen);
@@ -108,6 +135,10 @@ async function setupSerialCommunication() {
   }
 }
 
+/**
+ * Monitor the Arduino connection status and attempt to reconnect if necessary.
+ * The connection is checked every 5 seconds.
+ */
 function monitorArduinoConnection() {
   // Check connection every 5 seconds
   checkInterval = setInterval(async () => {
